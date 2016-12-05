@@ -1,0 +1,25 @@
+app:
+  name: Ioke-Api
+  port: 8888
+  templating: ejs
+  environment: local
+  secret: &@éé&sojèè!!bo
+
+dependencies:
+  middlewares:
+    # - bodyparser
+  components:
+    - layout
+
+databases:
+  main:
+    engine: mysql
+    host: localhost
+    user: example
+    password: example
+    database: example
+    connectionLimit: 100
+    multipleStatements: true
+  secondary: # example of secondary db (not available yet)
+    engine: mongoDB
+    host: localhost
