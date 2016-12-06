@@ -54,6 +54,19 @@ function NavigoController() {
 
   }
 
+  // navigo/validity
+  self.postNavigoValidity = postNavigoValidity;
+
+  function postNavigoValidity(req, res) {
+    let navigoNumber = req.params.navigoNumber;
+    Navigo.validity(navigoNumber)
+      .then(function(navigo) {
+        res.send(navigo);
+      }, function(error) {
+        res.send(error);
+      });
+  }
+
   /// Private Methods
   ///////
 

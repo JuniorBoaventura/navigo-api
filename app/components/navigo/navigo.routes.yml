@@ -16,3 +16,11 @@ NavigoByNumber:
   controller: NavigoController
   middlewares:
     # - auth
+
+NavigoValidity:
+  method:
+    - POST
+  path: /navigo/validity/:navigoNumber?
+  controller: NavigoController
+  middlewares:
+    # - auth
