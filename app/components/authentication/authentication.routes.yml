@@ -1,0 +1,5 @@
+Authentication:
+  method:
+    - POST
+  path: /authentication
+  controller: AuthenticationController

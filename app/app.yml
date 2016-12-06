@@ -1,5 +1,5 @@
 app:
-  name: Ioke-Api
+  name: navigo-api
   port: 8888
   templating: ejs
   environment: local
@@ -9,7 +9,8 @@ dependencies:
   middlewares:
     # - bodyparser
   components:
-    - layout
+    - authentication
+    - navigo
 
 databases:
   main:

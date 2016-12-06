@@ -1,0 +1,18 @@
+Navigo:
+  method:
+    - GET
+    - POST
+    - PATCH
+  path: /navigo
+  controller: NavigoController
+  middlewares:
+    # - auth
+
+NavigoByNumber:
+  method:
+    - GET
+    - PATCH
+  path: /navigo/:navigoNumber
+  controller: NavigoController
+  middlewares:
+    # - auth

@@ -1,0 +1,41 @@
+# User Schemas
+User:
+  headers:
+    userToken: /regex/
+  POST:
+    body:
+
+
+# UserByID schemas
+UserByID:
+  params:
+    userId: Integer+
+
+
+  DELETE:
+    # something
+
+  POST:
+    body: # Exemple of complexe schema
+      __type: ListOfObject
+      __key: Integer # or Integer | Positive
+      __contentOf:
+        email*: String | Email
+        password*: String | Password
+        password-check*: String | Password | equal:@password
+        gender: String | Gender
+        messages:
+          __type: ArrayOfObject
+          __contentOf:
+            id: Int+
+            message: String
+            date: Date
+
+  PATCH:
+    body:
+      username: /regex/
+      email: /regex/
+      telephone:
+        function: checkPhone
+      adress:
+        function: checkAdress

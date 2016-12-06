@@ -1,0 +1,20 @@
+User:
+  method:
+    - GET
+    - POST
+    - PATCH
+  path: /user
+  controller: UserController
+  middlewares:
+    - auth
+
+UserByID:
+  method:
+    - GET
+    - PATCH
+    - DELETE
+  path: /user/:userID
+  controller: UserController
+  middlewares:
+    # - test
+    # - sequelize

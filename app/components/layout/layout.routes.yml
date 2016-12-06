@@ -1,7 +1,0 @@
-Home:
-  method:
-    - GET
-  path: /
-  controller: LayoutController
-  middleware:
-    # - authMiddleware

@@ -8,7 +8,8 @@
     "start": "nodemon server.js",
     "local": "nodemon server.js --env local",
     "dev": "nodemon server.js --env dev",
-    "prod": "nodemon server.js --env prod"
+    "prod": "nodemon server.js --env prod",
+    "model": "sequelize-auto -o \"app/common/schemes\" -d navigo-api -h localhost -u root -p 3306 -x root -e mysql"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/JuniorBoaventura/navigo-api#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "1.15.2",
     "colors": "1.1.2",
     "commander": "2.9.0",
@@ -37,6 +39,8 @@
     "passport-local": "1.0.0",
     "redis": "^2.6.2",
     "sequelize": "3.24.3",
-    "socket.io": "1.3.7"
+    "sha1": "^1.1.1",
+    "socket.io": "1.3.7",
+    "webworker-threads": "^0.7.9"
   }
 }
