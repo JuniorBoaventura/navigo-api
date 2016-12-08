@@ -5,6 +5,11 @@ const Navigo = require('./navigo.model.js');
 function NavigoController() {
   let self = this;
 
+  const subscription = {
+    Year:  'year',
+    Month: 'month'
+  };
+
   function init() {
     // You can remove it and init() if you don't need initialization function
   }
@@ -64,6 +69,23 @@ function NavigoController() {
         res.send(navigo);
       }, function(error) {
         res.send(error);
+      });
+  }
+
+  // navigo/:navigoNumber/renew
+  self.postNavigoRenew = postNavigoRenew;
+
+  function postNavigoRenew(req, res) {
+    let navigoNumber = req.params.navigoNumber;
+    let type = subscription.Month;
+    let userId = 12; /* Must be changed by JWT */
+    let stripeToken = req.body.stripeToken;
+
+    Navigo.renew(navigoNumber, stripeToken, userId, type)
+      .then(function(navigo) {
+        res.send(navigo);
+      }).catch(function(err) {
+        res.send(err);
       });
   }
 

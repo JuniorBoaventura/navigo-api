@@ -20,7 +20,14 @@ NavigoByNumber:
 NavigoValidity:
   method:
     - POST
-  path: /navigo/validity/:navigoNumber?
+  path: /navigo/validity/:navigoNumber
   controller: NavigoController
   middlewares:
     # - auth
+
+NavigoRenew:
+  method:
+    - POST
+  path: /navigo/:navigoNumber/renew
+  controller: NavigoController
+  middlewares:
