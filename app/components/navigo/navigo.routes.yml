@@ -31,3 +31,4 @@ NavigoRenew:
   path: /navigo/:navigoNumber/renew
   controller: NavigoController
   middlewares:
+    # - auth

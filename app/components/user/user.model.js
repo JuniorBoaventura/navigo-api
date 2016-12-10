@@ -1,18 +1,46 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('ioke', 'root', 'local');
-const User = require('../../common/schemes/users.js')(sequelize, Sequelize);
+const sequelize = new Sequelize('navigo-api', 'root', 'root');
+const sha1      = require('sha1');
+const jwt       = require('jsonwebtoken');
+const User      = require('../../common/schemes/users.js')(sequelize, Sequelize);
+const Settings  = require('../../../core/config/index.js');
 
 function UserModel() {
-  let self = this;
+  let self     = this;
 
   /// Public Methods
   ///////
 
-  self.getAll     = getAll;
-  self.getByID    = getByID;
-  self.getByEmail = getByEmail;
+  self.getAll         = getAll;
+  self.getByID        = getByID;
+  self.getByEmail     = getByEmail;
+  self.authentication = authentication;
+
+  function authentication(email, password) {
+    return new Promise(function(resolve, reject) {
+      self.getByEmail(email)
+        .then(function(user) {
+
+          if (user.password != sha1(password)) {
+            reject({
+              success: false,
+              message: 'Authentication failed. Wrong password.'
+            });
+            return;
+          }
+
+          let token = jwt.sign(JSON.stringify(user), Settings.app.secret);
+          resolve({
+            success: true,
+            message: 'Authentication successfull',
+            token: token
+          });
+
+        });
+    });
+  }
 
   function getAll(callback) {
     let users = User.findAll();
@@ -43,7 +71,7 @@ function UserModel() {
 
   function getByEmail(email) {
     let user = User.findOne({
-      attributes: ['id', 'firstName', 'name', 'email','password'],
+      attributes: ['id', 'firstName', 'lastname', 'email','password'],
       where: {
         email: email
       }

@@ -1,8 +1,9 @@
 'use strict';
 
-const jwt    = require('jsonwebtoken');
-const redis  = require('redis');
-const client = redis.createClient();
+const jwt      = require('jsonwebtoken');
+const redis    = require('redis');
+const client   = redis.createClient();
+const Settings = require('../../../core/config/index.js');
 
 function authMiddleware(req, res, next) {
   var token = req.headers['x-access-token'] || req.query.token || req.body.token;
@@ -15,7 +16,7 @@ function authMiddleware(req, res, next) {
         return failedAuthToken(res);
       }
 
-      jwt.verify(token, 'tototot', function(err, decoded) {
+      jwt.verify(token, Settings.app.secret, function(err, decoded) {
         if (err) {
           return failedAuthToken(res);
         } else {

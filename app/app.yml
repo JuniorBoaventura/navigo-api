@@ -3,7 +3,7 @@ app:
   port: 8888
   templating: ejs
   environment: local
-  secret: &@éé&sojèè!!bo
+  secret: '*U9zHOX/OTEPs7B;AYX[0k%qcxzFY~'
 
 dependencies:
   middlewares:
