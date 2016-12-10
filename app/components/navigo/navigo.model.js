@@ -56,7 +56,7 @@ function NavigoModel() {
         }
         // let toto = today.diff(navigo.expiration);
         let daysLeft = daysUntil(today, navigo.expiration);
-        let message  = daysLeft < 3 ? 'You card expire in ' + daysLeft + _(' day').pluralize(daysLeft) : 'You\'re are good to go 😊';
+        let message  = daysLeft < 3 ? 'You card expire in ' + daysLeft + _(' day').pluralize(daysLeft) : 'Have a good day 😊';
         let response = {
           valid: true,
           expiration: navigo.expiration,

@@ -59,10 +59,11 @@ function NavigoController() {
 
   }
 
-  // navigo/validity
-  self.postNavigoValidity = postNavigoValidity;
+  // navigo/:navigoNumber/validity
+  self.getNavigoValidity = getNavigoValidity;
 
-  function postNavigoValidity(req, res) {
+  function getNavigoValidity(req, res) {
+    console.log('hello');
     let navigoNumber = req.params.navigoNumber;
     Navigo.validity(navigoNumber)
       .then(function(navigo) {
