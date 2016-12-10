@@ -24,7 +24,13 @@ function UserController() {
   }
 
   function postUser(req, res) {
-    res.send('postUser');
+    User.create(req.body, req.body.cardNumber)
+      .then(function(user) {
+        res.send(user);
+      }).catch(function(err) {
+        res.send(err);
+      });
+
   }
 
   function patchUser(req, res) {

@@ -22,11 +22,24 @@ function NavigoModel() {
   let self      = this;
   const today   = new Date();
   self.notFound = {error: true, message: 'Navigo not found'};
-  self.byNumber = byNumber;
-  self.validity = validity;
-  self.renew    = renew;
+
   /// Public Methods
   ///////
+
+  self.byNumber    = byNumber;
+  self.validity    = validity;
+  self.renew       = renew;
+  self.updateOwner = updateOwner;
+
+  function updateOwner(userId, number) {
+    let query = {fields: ['userId'], where: {number: number}, returning: true, plain: true};
+    return new Promise(function(resolve, reject) {
+      Navigo.update({userId: userId}, query)
+        .then(function(navigo) {
+          resolve(navigo);
+        });
+    });
+  }
 
   function byNumber(number) {
     let query = {
@@ -49,14 +62,17 @@ function NavigoModel() {
       },
       include: [User]
     };
+
     return new Promise(function(resolve, reject) {
       findOne(query).then(function(navigo) {
+
         if (navigo == null) {
           reject({error: true, message: 'Card ' + number + ' is not valid'});
         }
-        // let toto = today.diff(navigo.expiration);
+
         let daysLeft = daysUntil(today, navigo.expiration);
         let message  = daysLeft < 3 ? 'You card expire in ' + daysLeft + _(' day').pluralize(daysLeft) : 'Have a good day 😊';
+
         let response = {
           valid: true,
           expiration: navigo.expiration,
@@ -70,7 +86,7 @@ function NavigoModel() {
   }
 
   function renew(number, stripeToken, userId, type, quantity = 1) {
-    /* type: Year(1) or 1 Month(2) */
+    // type: Year or 1 Month
     let query = {
       where: {
         number: number,

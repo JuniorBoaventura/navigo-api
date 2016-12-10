@@ -6,7 +6,7 @@ User:
   path: /user
   controller: UserController
   middlewares:
-    - auth
+    # - auth
 
 UserByID:
   method:
