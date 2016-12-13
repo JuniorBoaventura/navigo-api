@@ -4,6 +4,7 @@ app:
   templating: ejs
   environment: local
   secret: '*U9zHOX/OTEPs7B;AYX[0k%qcxzFY~'
+  stripe: 'sk_test_OGwQPF5EllevmGznSuDWvALy'
 
 dependencies:
   middlewares:

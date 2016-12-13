@@ -1,12 +1,13 @@
 'use strict';
 
+const Settings  = require('../../../core/config/index.js');
+
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('navigo-api', 'root', 'root');
 const sha1      = require('sha1');
 const jwt       = require('jsonwebtoken');
 const User      = require('../../common/schemes/users.js')(sequelize, Sequelize);
 const Navigo    = require('../navigo/navigo.model.js'); // Model
-const Settings  = require('../../../core/config/index.js');
 
 function UserModel() {
   let self     = this;
@@ -27,7 +28,6 @@ function UserModel() {
 
       user.spread(function(user, created) {
 
-        console.log(created);
         if (created == false) {
           reject({success: false, message: 'This user alreay exist'});
           return;
@@ -55,15 +55,16 @@ function UserModel() {
       self.getByEmail(email)
         .then(function(user) {
 
-          if (user.password != sha1(password)) {
+          if (user == null || user.password != sha1(password)) {
             reject({
               success: false,
-              message: 'Authentication failed. Wrong password.'
+              message: 'Authentication failed.'
             });
             return;
           }
 
           let token = jwt.sign(JSON.stringify(user), Settings.app.secret);
+
           resolve({
             success: true,
             message: 'Authentication successfull',

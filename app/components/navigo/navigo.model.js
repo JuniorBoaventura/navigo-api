@@ -1,13 +1,10 @@
 'use strict';
 
-// Stripe
-const stripe = require('stripe')('sk_test_OGwQPF5EllevmGznSuDWvALy');
+const Settings = require('../../../core/config/index.js');
 
-// Datetimejs
-const dt = require('datetimejs');
-
-// Lodash
-const _         = require('lodash');
+const stripe = require('stripe')(Settings.app.stripe);
+const dt     = require('datetimejs');
+const _      = require('lodash');
 _.mixin(require('lodash-inflection'));
 
 // Sequelize
@@ -103,6 +100,7 @@ function NavigoModel() {
 
         if (daysLeft > 7) {
           reject({sucess: false, message: 'this card can\'t be renewed'});
+          return;
         }
 
         let invoice = {
@@ -113,28 +111,38 @@ function NavigoModel() {
         };
 
         var charge = stripe.charges.create(invoice, function(err, charge) {
-          if (err && err.type === 'StripeCardError') {
-            reject({sucess: false, message: 'The card has been declined'});
-          }
-        });
 
-        var newExpiration = expirationDate;
-
-        switch (type) {
-          case 'year':
-            newExpiration = dt.datetime.addYears(expirationDate, quantity);
-          case 'month':
-            newExpiration = dt.datetime.addMonths(expirationDate, quantity);
-        }
-
-        Navigo.update({expiration: newExpiration}, query)
-          .then(function(navigo) {
-            resolve({
-              sucess: true,
-              message: 'Card renewed for ' + quantity + ' ' + _(type).pluralize(quantity),
-              navigo: {number: number, expiration: newExpiration}
+          if (err) {
+            reject({
+              sucess: false,
+              error: {
+                type: err.type,
+                message: err.message
+              }
             });
-          });
+            return;
+          }
+
+          var newExpiration = expirationDate;
+
+          switch (type) {
+            case 'year':
+              newExpiration = dt.datetime.addYears(expirationDate, quantity);
+            case 'month':
+              newExpiration = dt.datetime.addMonths(expirationDate, quantity);
+          }
+
+          Navigo.update({expiration: newExpiration}, query)
+            .then(function(navigo) {
+              resolve({
+                sucess: true,
+                message: 'Card renewed for ' + quantity + ' ' + _(type).pluralize(quantity),
+                navigo: {number: number, expiration: newExpiration}
+              });
+              return;
+            });
+
+        });
 
       }).catch(function(err) {
         console.log(err);

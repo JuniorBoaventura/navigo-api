@@ -63,7 +63,6 @@ function NavigoController() {
   self.getNavigoValidity = getNavigoValidity;
 
   function getNavigoValidity(req, res) {
-    console.log('hello');
     let navigoNumber = req.params.navigoNumber;
     Navigo.validity(navigoNumber)
       .then(function(navigo) {
