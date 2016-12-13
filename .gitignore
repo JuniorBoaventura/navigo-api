@@ -4,6 +4,7 @@ node_modules/
 public/
 build/
 Specifications/
+ui/build/
 
 #   Compiled source   #
 #######################
